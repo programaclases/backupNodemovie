@@ -2,14 +2,20 @@
 const jwtHelper = require('../helpers/jwtHelper');
 
 
-function protegerRutas( req, res, next){
+async function protegerRutas( req, res, next){
  
    if( !req.headers.authorization ){
+     
      res.status(400).json({ message: 'acceso restringido'});
    }else{
        let token = req.headers.authorization;
-    
-       console.log('token decode', jwtHelper.decode(token));
+       console.log("jwtHelper.decode(token)",  await jwtHelper.decode(token, req));
+       
+       if( await jwtHelper.decode(token,req) == false){
+
+       return res.status(400).json({ message: 'token expirado o invalido', role: req.body.role});
+       }
+       
     
     next();
    }

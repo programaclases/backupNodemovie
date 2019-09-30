@@ -16,6 +16,23 @@ function listar(req,res){
 
 }
 
+function getUser(req,res){
+    let id = req.query.id;
+    
+    user.findOne({_id: id},{password:0},  function(error, respuestUser) {
+        if( error){
+            return res.status(400).json({'error': error, 'message':'no se puede listar usuarios'});
+        }
+        if( respuestUser ){
+            return res.status(200).json({ 'message':'lista de  usuarios', 'usuario': respuestUser });
+        }else{
+            return res.status(400).json({'error':'no se ha encontrado el usuario'});
+        }
+    });
+    
+
+}
+
 function crear(req,res){
     
     //return res.status(200).json({'datos':req.body });
@@ -95,7 +112,8 @@ function update(req,res){
 function updatePassword(req,res){
     let id = req.query.id;
     const password = req.body.password;
-    //return res.status(200).json({ 'message': password } );
+
+   
 
     bcrypt.hash(password, saltRounds, function(err, hash) {
         // Store hash in your password DB.
@@ -103,8 +121,8 @@ function updatePassword(req,res){
             return res.status(400).json({'error':'no se ha podido encriptar ' } );
         }
         if( hash ){
-            
-            user.updateOne({ _id: id}, {$set: { password: hash } }, function(error, userUpdate ){
+            //return res.status(200).json({ 'message': hash } );
+            user.findByIdAndUpdate( id, {$set: { password: hash } }, function(error, userUpdate ){
                 if( error ){
                         return res.status(400).json({ error } );
                     }
@@ -183,8 +201,12 @@ function login( req,res ){
     } );
 
 }
+
+
+
 module.exports = { 
     updatePassword,
+    getUser,
     login,
     listar,
     crear,

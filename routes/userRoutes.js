@@ -9,7 +9,7 @@ apUser.get('/list',userController.listar);
 
 apUser.post('/login', userController.login);
 
-apUser.use(jwtProteger.protegerRutas );
+apUser.get('/usuario', userController.getUser);
 
 apUser.post('/crear', userController.crear);
 

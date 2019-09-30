@@ -3,25 +3,7 @@ const api = express();
 const userRoutes = require('./routes/userRoutes');
 const moviesRoutes = require('./routes/movieRoutes');
 
-/*
-* nuevo comentario
-*/
 
-/*
-* nuevo comentario
-*/
-
-/*
-* nuevo comentario
-*/
-
-/*
-* nuevo comentario
-*/
-
-/*
-* nuevo comentario
-*/
 
 api.use('/users', userRoutes);
 
